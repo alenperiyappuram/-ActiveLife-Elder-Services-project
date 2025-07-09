@@ -1,0 +1,81 @@
+﻿@model ActiveLifeElderServices.Models.BookAppointmentViewModel
+
+@{
+    ViewData["Title"] = "Book Appointment";
+    Layout = "_Layout"; // Ensure it uses your main layout
+}
+
+<div class="container mt-4">
+    <div class="card p-4 shadow-sm">
+        <h2 class="text-primary mb-4">Book a New Appointment</h2>
+        <form asp-action="Book" asp-controller="Appointment" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-3">
+                <label asp-for="ClientName" class="form-label"></label>
+                <input asp-for="ClientName" class="form-control rounded-pill px-3 py-2" placeholder="Enter your full name or client's name">
+                <span asp-validation-for="ClientName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Address" class="form-label"></label>
+                <input asp-for="Address" class="form-control rounded-pill px-3 py-2" placeholder="e.g., 123 Main St, Apt 4B, City, Postal Code">
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="AppointmentDateTime" class="form-label"></label>
+                <input asp-for="AppointmentDateTime" type="datetime-local" class="form-control rounded-pill px-3 py-2">
+                <span asp-validation-for="AppointmentDateTime" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control rounded-pill px-3 py-2" placeholder="Enter your email address">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="NearestLandmark" class="form-label"></label>
+                <input asp-for="NearestLandmark" class="form-control rounded-pill px-3 py-2" placeholder="e.g., Near City Hospital, Beside Park">
+                <span asp-validation-for="NearestLandmark" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="SelectedServiceType" class="form-label"></label>
+                <select asp-for="SelectedServiceType" asp-items=" ViewBag.ServiceTypes" class="form-select rounded-pill px-3 py-2">
+                    <option value="">-- Select a Service --</option>
+                </select>
+                <span asp-validation-for="SelectedServiceType" class="text-danger"></span>
+            </div>
+
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary rounded-pill px-4 py-2">Submit Appointment</button>
+            </div>
+
+            <!-- Display server-side validation summary -->
+            <div asp-validation-summary="ModelOnly" class="text-danger alert-message alert-danger mt-3" style="display: block;"></div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        // Ensure client-side validation scripts are included
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <!-- Optional: Add a date/time picker library for better UX -->
+    <!-- For example, using Flatpickr.js: -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            flatpickr("#@Html.IdFor(m => m.AppointmentDateTime)", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                minuteIncrement: 15 // Optional: Allow selecting time in 15-minute intervals
+            });
+        });
+    </script>
+}

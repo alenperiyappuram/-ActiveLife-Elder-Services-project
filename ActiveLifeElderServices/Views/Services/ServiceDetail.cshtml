@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = ViewBag.ServiceName;
+}
+
+<div class="container mt-4">
+    <div class="card p-4 shadow-sm">
+        <h2 class="text-primary mb-3">@ViewBag.ServiceName</h2>
+        <p class="lead">@ViewBag.ServiceDescription</p>
+        <hr />
+        <p>For more details or to book this service, please visit our <a asp-controller="Appointment" asp-action="Book">Appointment Booking</a> page.</p>
+        <a asp-controller="Dashboard" asp-action="Index" class="btn btn-secondary mt-3 rounded-pill px-4">Back to Dashboard</a>
+    </div>
+</div>

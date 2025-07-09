@@ -1,0 +1,62 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosf
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+*.pdb
+*.ilk
+*.log
+*.bak
+*.sbr
+*.bsc
+*.ncb
+*.scc
+*.resharper
+*.userprefs
+*.vspscc
+*.vssscc
+*.vsw
+*.buildlog
+*.webinfo
+*.opensdf
+*.sdf
+*.cache
+*.aps
+*.zip
+*.tar
+*.tar.gz
+*.rar
+*.7z
+*.tmp
+*.json.user
+*.user.json
+*.publish
+*.pubxml
+*.pubxml.user
+*.dbmdl
+
+# NuGet packages
+packages/
+*.nupkg
+# The .NET Core SDK will automatically restore packages, so no need to commit them.
+
+# Rider
+.idea/
+
+# Node.js
+node_modules/
+
+# Test Results
+TestResults/
+
+# SQL Server LocalDB files (important for your project)
+*.mdf
+*.ldf
+*.bak

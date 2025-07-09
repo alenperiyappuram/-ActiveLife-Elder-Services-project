@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_Layout"; // Ensure it uses the main layout
+}
+
+@using ActiveLifeElderServices.Models @* Add this line at the top to access your constants *@
+
+<!-- Main content for the Dashboard page -->
+<div class="row">
+    <!-- Sidebar Column -->
+    <div class="col-md-3">
+        <div class="card sidebar-card">
+            <div class="card-header sidebar-header">
+                <h5 class="mb-0">Elderly Care Services</h5>
+            </div>
+            <div class="list-group list-group-flush">
+                @foreach (var service in ServiceConstants.AllServiceTypes)
+                {
+                    <a href="@Url.Action("ServiceDetail", "Services", new { serviceName = service })" class="list-group-item list-group-item-action sidebar-item">
+                        <i class="fas fa-{{ GetServiceIcon(service) }} me-2"></i> @service
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Area Column -->
+    <div class="col-md-9">
+        <div class="card dashboard-content-card">
+            <div class="card-body">
+                <h3 class="card-title text-primary">Welcome to Your ActiveLife Dashboard, @User.Identity.Name!</h3>
+                <p class="card-text">
+                    Here you can manage all aspects of your elderly care services. Use the sidebar on the left to navigate through various options.
+                </p>
+                <hr>
+                <h4>Quick Actions</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card action-card">
+                            <div class="card-body">
+                                <h5 class="card-title">Book New Appointment</h5>
+                                <p class="card-text">Schedule a new service or medical escort.</p>
+                                <a asp-controller="Appointment" asp-action="Book" class="btn btn-outline-primary rounded-pill">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card action-card">
+                            <div class="card-body">
+                                <h5 class="card-title">View Upcoming Services</h5>
+                                <p class="card-text">Check your scheduled appointments and services.</p>
+                                <a href="#" class="btn btn-outline-primary rounded-pill">View Services</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @functions {
+        // Helper function to get icon based on service name
+        private string GetServiceIcon(string serviceName)
+        {
+            return serviceName switch
+            {
+                "Medical Escort & Support" => "hospital-user",
+                "Personalized Transportation" => "car",
+                "In-Home Care & Assistance" => "home",
+                "Home Deep Cleaning" => "broom",
+                "Errand & Delivery Services" => "box",
+                "Gardening & Outdoor Support" => "seedling",
+                "Grocery & Shopping Assistance" => "shopping-basket",
+                _ => "question-circle" // Default icon
+            };
+        }
+    }
+
+    @section Scripts {
+        <!-- Font Awesome for icons -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0V4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    }

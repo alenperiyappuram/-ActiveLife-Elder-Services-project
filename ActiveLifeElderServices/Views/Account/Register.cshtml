@@ -1,0 +1,127 @@
+﻿@model ActiveLifeElderServices.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #e9ecef; /* Lighter grey background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; /* Full viewport height */
+        margin: 0;
+    }
+
+    .register-container {
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 15px; /* Rounded corners */
+        box-shadow: 0 8px 20px rgba(0,0,0,.15); /* Soft shadow */
+        width: 100%;
+        max-width: 450px; /* Max width for the form */
+        text-align: center;
+    }
+
+        .register-container h2 {
+            color: #007bff;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+    .form-control {
+        border-radius: 8px; /* Rounded input fields */
+        padding: 12px 15px;
+        border: 1px solid #ced4da;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        border-radius: 8px;
+        padding: 12px 25px;
+        font-weight: 600;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    .form-label {
+        font-weight: 500;
+        color: #495057;
+        text-align: left;
+        display: block; /* Ensure label takes full width */
+        margin-bottom: 5px;
+    }
+
+    .alert-message {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 8px;
+        /* display: none; */ /* Keep this commented for server-side validation summary to show */
+        font-weight: 500;
+    }
+
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+</style>
+
+<div class="register-container">
+    <h2>Register for ActiveLife</h2>
+    <form asp-action="Register" asp-controller="Account" method="post">
+        @Html.AntiForgeryToken()
+        <div class="mb-3 text-start">
+            <label asp-for="Username" class="form-label"></label>
+            <input asp-for="Username" class="form-control rounded-pill px-3 py-2" placeholder="Choose a username">
+            <span asp-validation-for="Username" class="text-danger"></span>
+        </div>
+        <div class="mb-3 text-start">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control rounded-pill px-3 py-2" placeholder="Enter your email (optional)">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3 text-start">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" class="form-control rounded-pill px-3 py-2" placeholder="Choose a password">
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="mb-3 text-start">
+            <label asp-for="ConfirmPassword" class="form-label"></label>
+            <input asp-for="ConfirmPassword" class="form-control rounded-pill px-3 py-2" placeholder="Confirm your password">
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        <div class="d-grid gap-2 mb-3">
+            <button type="submit" class="btn btn-primary rounded-pill px-4 py-2">Register</button>
+        </div>
+        <p class="text-muted">Already have an account? <a asp-action="Login" asp-controller="Account" class="text-decoration-none text-primary">Login here</a></p>
+
+        <!-- Display server-side validation summary -->
+        <div asp-validation-summary="ModelOnly" class="text-danger alert-message alert-danger" style="display: block;"></div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial"); // Include client-side validation scripts
+    }
+}

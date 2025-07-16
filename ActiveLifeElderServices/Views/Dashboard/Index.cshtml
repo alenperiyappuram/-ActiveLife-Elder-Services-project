@@ -44,13 +44,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <div class="card action-card">
-                            <div class="card-body">
-                                <h5 class="card-title">View Upcoming Services</h5>
-                                <p class="card-text">Check your scheduled appointments and services.</p>
-                                <a href="#" class="btn btn-outline-primary rounded-pill">View Services</a>
-                            </div>
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h5 class="card-title text-info">View Upcoming Services</h5>
+                            <p class="card-text text-muted">Check your scheduled appointments and services.</p>
+                            <a asp-action="ListAppointments" asp-controller="Appointment" class="btn btn-outline-info">View Services</a> @* CHANGED: Controller and Action *@
                         </div>
                     </div>
                 </div>

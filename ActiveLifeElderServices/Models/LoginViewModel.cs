@@ -12,6 +12,11 @@ namespace ActiveLifeElderServices.Models
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
-        public bool RememberMe { get; internal set; }
+
+        [Display(Name = "Remember Me")]
+        public bool RememberMe { get; set; }
+
+        // NEW: ReturnUrl property
+        public string? ReturnUrl { get; set; } // Nullable string to handle cases where it's not present
     }
 }

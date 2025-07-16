@@ -1,82 +1,229 @@
 ﻿@model ActiveLifeElderServices.Models.BookAppointmentViewModel
+@using ActiveLifeElderServices.Models
 
 @{
-    ViewData["Title"] = "Book Appointment";
-    Layout = "_Layout"; // Ensure it uses your main layout
+    ViewData["Title"] = "Book an Appointment";
+    Layout = "_Layout";
 }
 
-<div class="container mt-4">
-    <div class="card p-4 shadow-sm">
-        <h2 class="text-primary mb-4">Book a New Appointment</h2>
-        <form asp-action="Book" asp-controller="Appointment" method="post">
-            @Html.AntiForgeryToken()
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center text-primary mb-4">Book Your Service Appointment</h2>
+                <p class="text-center text-muted mb-4">
+                    Fill out the form below to request an appointment. Our team will contact you shortly to confirm the details.
+                </p>
 
-            <div class="mb-3">
-                <label asp-for="ClientName" class="form-label"></label>
-                <input asp-for="ClientName" class="form-control rounded-pill px-3 py-2" placeholder="Enter your full name or client's name">
-                <span asp-validation-for="ClientName" class="text-danger"></span>
+                <form asp-action="Book" method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="ClientName" class="form-label"></label>
+                        <input asp-for="ClientName" class="form-control" />
+                        <span asp-validation-for="ClientName" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ContactPhoneNumber" class="form-label"></label>
+                        <input asp-for="ContactPhoneNumber" class="form-control" type="tel" placeholder="e.g., +91 98765 43210" />
+                        <span asp-validation-for="ContactPhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="AlternatePhoneNumber" class="form-label"></label>
+                        <input asp-for="AlternatePhoneNumber" class="form-control" type="tel" placeholder="Optional" />
+                        <span asp-validation-for="AlternatePhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="SelectedServiceType" class="form-label"></label>
+                        <select asp-for="SelectedServiceType" asp-items="ViewBag.ServiceTypes" class="form-select">
+                            <option value="">-- Select a Service --</option>
+                        </select>
+                        <span asp-validation-for="SelectedServiceType" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="AppointmentDate" class="form-label"></label>
+                        <input asp-for="AppointmentDate" class="form-control" type="date" />
+                        <span asp-validation-for="AppointmentDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="AppointmentTime" class="form-label"></label>
+                        <input asp-for="AppointmentTime" class="form-control" type="time" />
+                        <span asp-validation-for="AppointmentTime" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Address" class="form-label"></label>
+                        <input asp-for="Address" class="form-control" placeholder="e.g., House No, Street, Area, City" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="NearestLandmark" class="form-label"></label>
+                        <input asp-for="NearestLandmark" class="form-control" placeholder="e.g., Near Apollo Hospital" />
+                        <span asp-validation-for="NearestLandmark" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ContactAddress" class="form-label"></label>
+                        <input asp-for="ContactAddress" class="form-control" placeholder="Used for correspondence, if different from service address" />
+                        <span asp-validation-for="ContactAddress" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="AdditionalRequirements" class="form-label"></label>
+                        <textarea asp-for="AdditionalRequirements" class="form-control" rows="4" placeholder="Any specific needs or requests for the service (e.g., 'Requires wheelchair access', 'Prefers morning visits')"></textarea>
+                        <span asp-validation-for="AdditionalRequirements" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="CaregiverGenderPreference" class="form-label"></label>
+                        <select asp-for="CaregiverGenderPreference" asp-items="ViewBag.CaregiverGenderOptions" class="form-select"></select>
+                        <span asp-validation-for="CaregiverGenderPreference" class="text-danger"></span>
+                    </div>
+                    <p class="text-muted small mt-2">
+                        <em>Gender preference is applicable for services like "Medical Escort & Support", "In-Home Care & Assistance", and "Gardening & Outdoor Support".</em>
+                    </p>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Submit Appointment Request</button>
+                        <a asp-action="Index" asp-controller="Dashboard" class="btn btn-outline-secondary btn-lg">Cancel</a>
+                    </div>
+                </form>
             </div>
-
-            <div class="mb-3">
-                <label asp-for="Address" class="form-label"></label>
-                <input asp-for="Address" class="form-control rounded-pill px-3 py-2" placeholder="e.g., 123 Main St, Apt 4B, City, Postal Code">
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="AppointmentDateTime" class="form-label"></label>
-                <input asp-for="AppointmentDateTime" type="datetime-local" class="form-control rounded-pill px-3 py-2">
-                <span asp-validation-for="AppointmentDateTime" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="Email" class="form-label"></label>
-                <input asp-for="Email" class="form-control rounded-pill px-3 py-2" placeholder="Enter your email address">
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-
-            <div class="mb-3">
-                <label asp-for="NearestLandmark" class="form-label"></label>
-                <input asp-for="NearestLandmark" class="form-control rounded-pill px-3 py-2" placeholder="e.g., Near City Hospital, Beside Park">
-                <span asp-validation-for="NearestLandmark" class="text-danger"></span>
-            </div>
-
-            <div class="mb-4">
-                <label asp-for="SelectedServiceType" class="form-label"></label>
-                <select asp-for="SelectedServiceType" asp-items="ViewBag.ServiceTypes" class="form-select rounded-pill px-3 py-2">
-                    @* CHANGED HERE: Model.ServiceTypes to ViewBag.ServiceTypes *@
-                    <option value="">-- Select a Service --</option>
-                </select>
-                <span asp-validation-for="SelectedServiceType" class="text-danger"></span>
-            </div>
-
-            <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-primary rounded-pill px-4 py-2">Submit Appointment</button>
-            </div>
-
-            <!-- Display server-side validation summary -->
-            <div asp-validation-summary="ModelOnly" class="text-danger alert-message alert-danger mt-3" style="display: block;"></div>
-        </form>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     @{
-        // Ensure client-side validation scripts are included
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-    <!-- Optional: Add a date/time picker library for better UX -->
-    <!-- For example, using Flatpickr.js: -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            flatpickr("#@Html.IdFor(m => m.AppointmentDateTime)", {
-                enableTime: true,
-                dateFormat: "Y-m-d H:i",
-                minuteIncrement: 15 // Optional: Allow selecting time in 15-minute intervals
-            });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get references to elements
+            var serviceTypeSelect = document.getElementById('SelectedServiceType');
+            var caregiverGenderGroup = document.querySelector('[for="CaregiverGenderPreference"]').closest('.mb-3');
+
+            // Define services where gender preference is applicable
+            var genderApplicableServices = [
+                "Medical Escort & Support",
+                "In-Home Care & Assistance",
+                "Gardening & Outdoor Support"
+            ];
+
+            // Function to toggle gender preference field visibility
+            function toggleGenderPreference() {
+                var selectedService = serviceTypeSelect.value;
+                if (genderApplicableServices.includes(selectedService)) {
+                    caregiverGenderGroup.style.display = 'block';
+                } else {
+                    caregiverGenderGroup.style.display = 'none';
+                    document.getElementById('CaregiverGenderPreference').value = ''; // Clear value when hidden
+                }
+            }
+
+            // Initial call to set correct visibility on page load
+            toggleGenderPreference();
+
+            // Add event listener for when the service type changes
+            serviceTypeSelect.addEventListener('change', toggleGenderPreference);
+
+            // Client-side date and time validation/initialization
+            var appointmentDateInput = document.getElementById('AppointmentDate');
+            var appointmentTimeInput = document.getElementById('AppointmentTime');
+
+            if (appointmentDateInput && appointmentTimeInput) {
+                var now = new Date();
+
+                // Set min attribute for AppointmentDate to prevent past dates
+                var year = now.getFullYear();
+                var month = (now.getMonth() + 1).toString().padStart(2, '0');
+                var day = now.getDate().toString().padStart(2, '0');
+                var minDate = `${year}-${month}-${day}`;
+                appointmentDateInput.setAttribute('min', minDate);
+
+                // Set initial values if they are empty
+                if (!appointmentDateInput.value) {
+                    appointmentDateInput.value = minDate;
+                }
+                if (!appointmentTimeInput.value) {
+                    // Default to 9 AM, but consider current time if it's past 9 AM
+                    let defaultHour = 9;
+                    let defaultMinute = 0;
+
+                    // If current time is past 9 AM or current date is today, set time to current time + 5 min
+                    var today = new Date();
+                    today.setHours(0,0,0,0); // Normalize today to start of day
+                    var selectedDate = new Date(appointmentDateInput.value);
+                    selectedDate.setHours(0,0,0,0); // Normalize selected date to start of day
+
+                    if (selectedDate.getTime() === today.getTime() || now.getHours() >= defaultHour) {
+                         currentHour = now.getHours();
+                         currentMinute = now.getMinutes() + 5; // Add a 5-minute buffer
+                        if (currentMinute >= 60) {
+                            currentHour++;
+                            currentMinute = currentMinute % 60;
+                        }
+                        // Ensure it's not past 23:59
+                        if (currentHour > 23) {
+                            currentHour = 23;
+                            currentMinute = 59;
+                        }
+                        defaultHour = currentHour;
+                        defaultMinute = currentMinute;
+                    }
+                    appointmentTimeInput.value = `${defaultHour.toString().padStart(2, '0')}:${defaultMinute.toString().padStart(2, '0')}`;
+                }
+
+                // Add event listener for date change to adjust time if date is today
+                appointmentDateInput.addEventListener('change', function () {
+                    var selectedDate = new Date(this.value);
+                    var today = new Date();
+                    today.setHours(0, 0, 0, 0); // Normalize today to start of day
+
+                    // Only set min time if the selected date IS today
+                    if (selectedDate.getTime() === today.getTime()) {
+                        var currentHour = now.getHours();
+                        var currentMinute = now.getMinutes() + 5; // Add a 5-minute buffer
+                        if (currentMinute >= 60) {
+                            currentHour++;
+                            currentMinute = currentMinute % 60;
+                        }
+                        var minTime = `${currentHour.toString().padStart(2, '0')}:${currentMinute.toString().padStart(2, '0')}`;
+                        appointmentTimeInput.setAttribute('min', minTime);
+                        // Also adjust the value if it's already selected and in the past
+                        if (appointmentTimeInput.value && appointmentTimeInput.value < minTime) {
+                            appointmentTimeInput.value = minTime;
+                        }
+                    } else {
+                        // If selected date is not today, remove min time restriction
+                        appointmentTimeInput.removeAttribute('min');
+                        // Optionally reset time to 00:00 or a default for future dates
+                        if (appointmentTimeInput.value && appointmentTimeInput.value < "00:00") { // Check if it's "before" any valid time
+                             appointmentTimeInput.value = "09:00"; // Or null, or "00:00"
+                        }
+                    }
+                });
+
+                // Initial adjustment for time based on default date (which is today)
+                appointmentDateInput.dispatchEvent(new Event('change'));
+            }
         });
     </script>
 }
+
+<style>
+    /* Your existing styles */
+</style>

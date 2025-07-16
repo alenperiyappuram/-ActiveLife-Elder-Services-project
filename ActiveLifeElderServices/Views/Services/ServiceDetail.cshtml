@@ -1,13 +1,64 @@
-﻿@{
-    ViewData["Title"] = ViewBag.ServiceName;
+﻿@using ActiveLifeElderServices.Models
+@model ActiveLifeElderServices.Models.Service // <--- Change model type to your main Service class
+@{
+    // Cast ViewBag.ServiceDetail to your main Service model
+    var service = ViewBag.ServiceDetail as Service; // <-- Cast to 'Service'
+    if (service == null)
+    {
+                <p>Service details not found.</p>
+        return; // Exit if service is null
+    }
+
+    ViewData["Title"] = service.Name;
+    Layout = "_Layout"; // Keep your layout
 }
 
 <div class="container mt-4">
     <div class="card p-4 shadow-sm">
-        <h2 class="text-primary mb-3">@ViewBag.ServiceName</h2>
-        <p class="lead">@ViewBag.ServiceDescription</p>
+        <h2 class="text-primary mb-3 text-center">@service.Name</h2>
+        <div class="text-center mb-4">
+            @if (!string.IsNullOrEmpty(service.ImagePath)) // Check if ImagePath exists
+            {
+                    <img src="@service.ImagePath" alt="@service.Name Service Image" class="w-32 h-32 rounded-full object-cover border-4 border-info shadow-lg mx-auto" onerror="this.onerror=null;this.src='/images/placeholders/service-default.jpg';"> @* Use ImagePath from model *@
+            }
+            else
+            {
+                    <div class="no-image-placeholder d-flex align-items-center justify-content-center" style="height: 200px; width: 200px; border-radius: 50%; background-color: #f0f0f0; margin: 0 auto;">
+                        <i class="@service.IconClass fa-5x text-muted"></i>
+                    </div>
+            }
+        </div>
+        <p class="lead text-zinc-700">@service.FullDescription</p> @* Use FullDescription for detail page *@
         <hr />
-        <p>For more details or to book this service, please visit our <a asp-controller="Appointment" asp-action="Book">Appointment Booking</a> page.</p>
+        <p class="text-muted">For more details or to book this service, please visit our <a asp-controller="Appointment" asp-action="Book" asp-route-SelectedServiceType="@service.Name" class="text-decoration-none text-primary">Appointment Booking</a> page.</p>
         <a asp-controller="Dashboard" asp-action="Index" class="btn btn-secondary mt-3 rounded-pill px-4">Back to Dashboard</a>
     </div>
 </div>
+
+@section Scripts {
+}
+
+<style>
+/* Add specific styles for the detail page image */
+.w-32 {
+    width: 8rem; /* 128px */
+}
+
+.h-32 {
+    height: 8rem; /* 128px */
+}
+
+.rounded-full {
+    border-radius: 9999px;
+}
+
+.object-cover {
+    object-fit: cover;
+}
+
+.border-4 {
+    border-width: 4px;
+}
+/* Ensure .text-info and other custom classes are defined in your CSS or provided by a framework like Bootstrap */
+/* Placeholders for Tailwind classes if you are not using Tailwind directly */
+</style>

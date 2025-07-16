@@ -1,0 +1,75 @@
+﻿@using ActiveLifeElderServices.Models
+@model List<ActiveLifeElderServices.Models.Service> 
+
+@{
+    ViewData["Title"] = "Our Services";
+    Layout = "_Layout";
+}
+
+<div class="container mt-4">
+    <div class="card p-4 shadow-sm">
+        <h2 class="text-primary mb-4 text-center">Explore Our Compassionate Services</h2>
+        <p class="lead text-center text-muted mb-5">
+            ActiveLife Elder Services is dedicated to providing comprehensive and personalized care.
+            Discover our range of services designed to enhance the well-being and independence of our elders.
+        </p>
+
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var service in ViewBag.AllServiceDetails)
+            {
+                <div class="col">
+                    <div class="card h-100 service-card border-0 shadow-sm rounded-lg overflow-hidden">
+                        <div class="card-body d-flex flex-column align-items-center text-center p-4">
+                            <div class="service-image-container mb-3">
+                                @if (!string.IsNullOrEmpty(service.ImagePath)) // Check if ImagePath exists
+                                {
+                                    <img src="@service.ImagePath" alt="@service.Name Service Image" class="w-24 h-24 rounded-full object-cover border-2 border-primary shadow-md" onerror="this.onerror=null;this.src='/images/placeholders/service-default-thumb.jpg';"> @* Use ImagePath from model *@
+                                }
+                                else
+                                {
+                                    <div class="no-image-placeholder d-flex align-items-center justify-content-center" style="width: 96px; height: 96px; border-radius: 50%; background-color: #f0f0f0;">
+                                        <i class="@service.IconClass fa-3x text-muted"></i>
+                                    </div>
+                                }
+                            </div>
+                            <h5 class="card-title text-info font-semibold mb-2">@service.Name</h5>
+                            <p class="card-text text-zinc-600 flex-grow-1">@service.ShortDescription</p> @* Use ShortDescription for list view *@
+                            <a asp-controller="Services" asp-action="ServiceDetail" asp-route-serviceName="@service.Name" class="btn btn-outline-primary rounded-pill mt-3 px-4 py-2">Learn More</a> @* Link to ServiceDetail *@
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <hr class="mt-5" />
+        <p class="text-center text-muted">Can't find what you're looking for? <a asp-controller="Home" asp-action="Contact" class="text-decoration-none text-primary">Contact us</a> for personalized assistance.</p>
+    </div>
+</div>
+
+@section Scripts {
+    }
+
+<style>
+    /* Custom styles for service cards */
+    .service-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 123, 255, 0.1); /* Subtle blue shadow on hover */
+    }
+
+    .service-image-container {
+        width: 96px; /* w-24 */
+        height: 96px; /* h-24 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden; /* Ensures image respects container bounds */
+    }
+
+    .service-image-container img {
+        /* Tailwind classes w-24 h-24 rounded-full object-cover are already applied inline */
+        /* You can add more specific styles here if needed, e.g., border-radius for older browsers */
+    }
+</style>
